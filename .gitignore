@@ -2,7 +2,6 @@ __pycache__/
 Include/
 Lib/
 sort_folder/venv/
-sort_folder/dist/
 sort_folder/sort.egg-info/
 Scripts/
 pyvenv.cfg
