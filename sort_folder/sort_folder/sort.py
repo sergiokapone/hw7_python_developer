@@ -91,6 +91,10 @@ def sort_dir(
 
                 try:
 
+                    Path(root_path).joinpath(category, item.name).unlink(
+                        missing_ok=True
+                    )
+
                     shutil.move(item, Path(root_path).joinpath(category))
 
                     if category == "archives":
@@ -119,9 +123,9 @@ def unpack(archive_path, path_to_unpack):
 
         shutil.unpack_archive(archive_path, path_to_unpack)
 
-    except OSError:
+    except OSError as er:
 
-        print(f"Unsupported file format {archive_path}")
+        print(er)
 
 
 def remove_empty(path):
