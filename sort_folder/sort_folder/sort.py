@@ -1,5 +1,6 @@
 import shutil
 import sys
+import random
 from pathlib import Path
 
 
@@ -89,18 +90,28 @@ def sort_dir(
 
                 # --------------------------
 
+                root_name = Path(root_path).joinpath(category, item.name)
+
+                file_exist = root_name.exists()
+
                 try:
 
-                    Path(root_path).joinpath(category, item.name).unlink(
-                        missing_ok=True
-                    )
+                    if file_exist:
+
+                        index = rand_string()
+
+                        new_name = item.stem + index + item.suffix
+
+                        root_name.rename(
+                            Path(root_path).joinpath(category, new_name)
+                        )
 
                     shutil.move(item, Path(root_path).joinpath(category))
 
                     if category == "archives":
 
                         unpack(
-                            Path(root_path).joinpath(category, item.name),
+                            root_name,
                             Path(root_path).joinpath(category, item.stem),
                         )
 
@@ -167,6 +178,16 @@ def known_exts(root):
                     exts.add(file.suffix)
 
     return exts
+
+
+def rand_string():
+
+    return "_" + "".join(
+        (
+            random.choice("012345678abcdxyzpqrABCDEFGHJKLMNOPQRSTUVWXYZ")
+            for i in range(5)
+        )
+    )
 
 
 """ ======================== Основна програма =============================="""
